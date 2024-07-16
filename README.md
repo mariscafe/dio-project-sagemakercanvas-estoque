@@ -56,9 +56,11 @@ A preparação dos dados é crucial para o sucesso do modelo. Isso inclui a conf
 
 #### Quantis
 
-- **<span style="color:rgb(236, 86, 140)">P10 (10º Percentil):**</span> Representa um valor abaixo do qual 10% das previsões estão. Indica um cenário de baixa demanda.
-- **<span style="color:rgb(9, 93, 93)">P50 (50º Percentil):**</span> Este é o valor mediano nas previsões, mostrando a demanda média esperada.
-- **<span style="color:rgb(179, 135, 5)">P90 (90º Percentil):**</span> Indica um valor acima do qual 10% das previsões estão. Reflete um cenário de alta demanda.
+![image](single_prediction_results/legenda.png)
+
+- **P10 (10º Percentil):** Representa um valor abaixo do qual 10% das previsões estão. Indica um cenário de baixa demanda.
+- **P50 (50º Percentil):** Este é o valor mediano nas previsões, mostrando a demanda média esperada.
+- **P90 (90º Percentil):** Indica um valor acima do qual 10% das previsões estão. Reflete um cenário de alta demanda.
 
 #### Resultados
 

@@ -1,47 +1,72 @@
-# 📊 Previsão de Estoque Inteligente na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
+# Capacitação - Digital Innovation One
 
-Bem-vindo ao desafio de projeto "Previsão de Estoque Inteligente na AWS com SageMaker Canvas. Neste Lab DIO, você aprenderá a usar o SageMaker Canvas para criar previsões de estoque baseadas em Machine Learning (ML). Siga os passos abaixo para completar o desafio!
+## Projeto
 
-## 📋 Pré-requisitos
+- 📊 Previsão de Estoque Inteligente na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
 
-Antes de começar, certifique-se de ter uma conta na AWS. Se precisar de ajuda para criar sua conta, confira nosso repositório [AWS Cloud Quickstart](https://github.com/digitalinnovationone/aws-cloud-quickstart).
+## Conhecimentos praticados
 
+- Aplicação de conceitos práticos de Machine Learning (ML) utilizando o SageMaker Canvas
 
-## 🎯 Objetivos Deste Desafio de Projeto (Lab)
+## Execução
 
-![image](https://github.com/digitalinnovationone/lab-aws-sagemaker-canvas-estoque/assets/730492/72f5c21f-5562-491e-aa42-2885a3184650)
+### 1. Criação do modelo
 
-- Dê um fork neste projeto e reescreva este `README.md`. Sinta-se à vontade para detalhar todo o processo de criação do seu Modelo de ML para uma "Previsão de Estoque Inteligente".
-- Para isso, siga o [passo a passo] descrito a seguir e evolua as suas habilidades em ML no-code com o Amazon SageMaker Canvas.
-- Ao concluir, envie a URL do seu repositório com a solução na plataforma da DIO.
+- Selecionado modelo de análise preditiva a partir de conjunto de dados tabulares.
 
+### 2. Seleção do Dataset
 
-## 🚀 Passo a Passo
+- Escolhido o dataset `dataset-1000-com-preco-promocional-e-renovacao-estoque.csv` disponibilizado no repositório de exemplo do projeto.
+- Arquivo possui 1000 linhas e 5 colunas (ID_PRODUTO, DATA_EVENTO, PRECO, FLAG_PROMOCAO, QUANTIDADE_ESTOQUE).
 
-### 1. Selecionar Dataset
+### 2. Construção e Treinamento
 
--   Navegue até a pasta `datasets` deste repositório. Esta pasta contém os datasets que você poderá escolher para treinar e testar seu modelo de ML. Sinta-se à vontade para gerar/enriquecer seus próprios datasets, quanto mais você se engajar, mais relevante esse projeto será em seu portfólio.
--   Escolha o dataset que você usará para treinar seu modelo de previsão de estoque.
--   Faça o upload do dataset no SageMaker Canvas.
+A preparação dos dados é crucial para o sucesso do modelo. Isso inclui a configuração e também a higienização dos dados, que envolve limpar e organizar os dados para garantir que o modelo possa aprender com eles de forma eficaz.
 
-### 2. Construir/Treinar
+- Ao selecionar a coluna alvo `QUANTIDADE_ESTOQUE`, o Canvas sugeriu o tipo de modelo *Time series forecasting* que fará a previsão da quantidade de estoque usando os dados passados para prever os valores futuros.
+- A coluna `ID_PRODUTO` foi escolhida como identificador único.
+- A coluna `DATA_EVENTO` foi escolhida como coluna que contem data/hora.
+- Optei por não selecionar a agenda de feriados na configuração do modelo.
+- Para os valores faltantes da coluna `PRECO` foi aplicada a mediana.
+- Para os valores faltantes da coluna `QUANTIDADE_ESTOQUE` foi aplicado o valor 0.
+- Para acelerar o processo de geração, selecionei a opção *Quick Build*.
 
--   No SageMaker Canvas, importe o dataset que você selecionou.
--   Configure as variáveis de entrada e saída de acordo com os dados.
--   Inicie o treinamento do modelo. Isso pode levar algum tempo, dependendo do tamanho do dataset.
+### 3. Análise
 
-### 3. Analisar
+#### Métricas
 
--   Após o treinamento, examine as métricas de performance do modelo.
--   Verifique as principais características que influenciam as previsões.
--   Faça ajustes no modelo se necessário e re-treine até obter um desempenho satisfatório.
+- **Avg. wQL (Média da Perda Quantil Ponderada):** Essa métrica mede o erro nas previsões, ponderado pela importância de cada item. Um valor menor indica maior precisão nas previsões.
+- **MAPE (Erro Percentual Médio Absoluto):** Calcula a média da porcentagem de erro das previsões em relação aos valores reais. Um MAPE menor indica maior precisão nas previsões.
+- **WAPE (Erro Percentual Absoluto Ponderado):** Similar ao MAPE, mas leva em consideração a importância de cada item no estoque. Isso significa que itens de maior valor ou importância terão um impacto maior na métrica. Um WAPE menor é desejável, pois indica que o modelo está prevendo com mais precisão para os itens mais críticos, o que é essencial para uma gestão eficiente do estoque.
+- **RMSE (Raiz do Erro Quadrático Médio):** Mede a diferença média entre os valores previstos e os valores reais, dando mais peso a grandes erros. Um RMSE menor é melhor, pois indica que as previsões estão, em média, próximas dos valores reais.
+- **MASE (Erro Escalado Médio Absoluto):** Compara o erro da previsão com um modelo simples. Um valor de MASE menor que 1 indica que o modelo está fazendo previsões mais precisas do que simplesmente usar a média histórica.
 
-### 4. Prever
+#### Status do Modelo
 
--   Use o modelo treinado para fazer previsões de estoque.
--   Exporte os resultados e analise as previsões geradas.
--   Documente suas conclusões e qualquer insight obtido a partir das previsões.
+| Avg. wQL | MAPE | WAPE | RMSE | MASE |
+| ---: | ---: | ---: | ---: | ---: |
+| 0.060 | 0.148 | 0.100 | 5.765 | 0.301 |
 
-## 🤔 Dúvidas?
+#### Impacto das colunas
 
-Esperamos que esta experiência tenha sido enriquecedora e que você tenha aprendido mais sobre Machine Learning aplicado a problemas reais. Se tiver alguma dúvida, não hesite em abrir uma issue neste repositório ou entrar em contato com a equipe da DIO.
+- PRECO: 9,61%
+- FLAG_PROMOCAO: 0%
+
+### 4. Previsão
+
+#### Quantis
+
+- **<span style="color:rgb(236, 86, 140)">P10 (10º Percentil):**</span> Representa um valor abaixo do qual 10% das previsões estão. Indica um cenário de baixa demanda.
+- **<span style="color:rgb(9, 93, 93)">P50 (50º Percentil):**</span> Este é o valor mediano nas previsões, mostrando a demanda média esperada.
+- **<span style="color:rgb(179, 135, 5)">P90 (90º Percentil):**</span> Indica um valor acima do qual 10% das previsões estão. Reflete um cenário de alta demanda.
+
+#### Resultados
+
+- Por se tratar de acesso gratuito à ferramenta, a previsão em lote não pode ser executada devido ao limite de cotas da conta.
+- Para o tipo de previsão simples, seguem os resultados para três itens aleatórios:
+  - Item 1016
+  ![image](single_prediction_results/item_1016.png)
+  - Item 1021
+  ![image](single_prediction_results/item_1021.png)
+  - Item 1024
+  ![image](single_prediction_results/item_1024.png)
